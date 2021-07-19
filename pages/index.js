@@ -207,24 +207,18 @@ export default function Home(props) {
 export async function getServerSideProps(context) {
   const cookies = nookies.get(context);
   const token = cookies.USER_TOKEN;
-  const decodedToken = jwt.decode(token);
-  let githubUser = "";
-  if (decodedToken.githubUser) {
-    githubUser = decodedToken.githubUser;
-  }
-  // const { githubUser } = jwt.decode(token) ? jwt.decode(token) : "";
-  const { isAuthenticated } = await fetch(
-    "https://alurakut-mmewsdvis-srolaff.vercel.app/api/auth",
-    {
-      headers: {
-        uthorization: token,
-      },
-    }
-  ).then((res) => res.json());
+  const { githubUser } = jwt.decode(token);
+  const { isAuthenticated } = await fetch("https://localhost:3000/api/auth", {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  }).then((res) => res.json());
 
   console.log("IsAuthenticated", isAuthenticated);
 
   if (!isAuthenticated) {
+    console.log(isAuthenticated);
     return {
       redirect: {
         destination: "/login",
