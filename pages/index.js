@@ -208,11 +208,14 @@ export async function getServerSideProps(context) {
   const cookies = nookies.get(context);
   const token = cookies.USER_TOKEN;
   const { githubUser } = jwt.decode(token);
-  const { isAuthenticated } = await fetch("http://localhost:3000/api/auth", {
-    headers: {
-      Authorization: token,
-    },
-  }).then((res) => res.json());
+  const { isAuthenticated } = await fetch(
+    "https://alurakut-mmewsdvis-srolaff.vercel.app/api/auth",
+    {
+      headers: {
+        uthorization: token,
+      },
+    }
+  ).then((res) => res.json());
 
   console.log("IsAuthenticated", isAuthenticated);
 
